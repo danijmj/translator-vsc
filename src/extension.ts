@@ -12,10 +12,11 @@ import { Observable } from "rxjs/Observable";
 import { pipe } from "rxjs/Rx";
 import { from } from "rxjs/observable/from";
 import { filter, map, mergeMap } from "rxjs/operators";
-import { Translator, TranslatorResult } from "./translator";
+import { Translator, TranslatorResult } from "./translator-vsc";
 
 export function activate(context: ExtensionContext) {
-    const disposable = commands.registerCommand('extension.translateForKorean', () => {
+    const disposable = commands.registerCommand('extension.translateForMultipleLangs', () => {
+
         const translator = new Translator();
         const editor = vswindow.activeTextEditor;
         if (!editor) {
@@ -26,15 +27,18 @@ export function activate(context: ExtensionContext) {
         const range = new Range(selections[0].start, selections[selections.length - 1].end);
         const text = editor.document.getText(range) || ""
         
-        text && translator.get(text)
-            .subscribe((v: TranslatorResult) => {
-                vswindow.showQuickPick(v.itemList, {
-                    matchOnDescription: true,
-                    placeHolder: "변경하고 싶은 단어.문장을 고르세요"
-                }).then((item: QuickPickItem) => {
-                    item && editor.edit(edit => edit.replace(range, item.label));
-                });
-            }, err => vswindow.showErrorMessage(err));
+        const optionsT = translator.get(text)
+        
+        vswindow.showQuickPick(optionsT.map(e => e.quickPickItem), {
+            
+            matchOnDescription: true,
+            placeHolder: "Select the word or sentence you want to change"
+
+        }).then((item: QuickPickItem) => {
+            translator.translate(text, optionsT.find(e => e.quickPickItem.label == item.label).lang).subscribe((vs: TranslatorResult) => {
+                item && editor.edit(edit => edit.replace(range, vs.translatedText));
+            })
+        });
     });
 
     context.subscriptions.push(disposable);

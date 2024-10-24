@@ -4,7 +4,7 @@ A vscode plugin to translate to specified languages.
 
 ## Features
 - Translates to differents languages  
-  ![enToKor](https://github.com/sculove/translator/raw/master/images/enToKor.gif)
+  ![translate](https://github.com/sculove/translator/raw/master/images/enToKor.gif)
   
 > ### Shortcuts
 > - MacOS: `Cmd + shift + t`
@@ -18,8 +18,7 @@ If you want to use Papago Translate API of NAVER, you need NAVER API key.
 
 ### Naver API
 - Free up to 10,000 per day  
-- [NAVER API Registration Guide](https://github.com/sculove/translator/wiki/Register-NAVER-API)  
-  [NAVER API 등록 가이드](https://github.com/sculove/translator/wiki/Register-NAVER-API)
+- [NAVER API Registration Guide](https://github.com/sculove/translator/wiki/Register-NAVER-API)
 
 
 ## Extension Settings
@@ -36,11 +35,13 @@ If you want to use Papago Translate API of NAVER, you need NAVER API key.
         "lang": "es",
         "langName": "Español",
         "detail": "Traducir al español",
+        "active": true
     },
     {
         "lang": "en",
         "langName": "English",
-        "detail": "English tranlation",
+        "detail": "English tranlation",,
+        "active": true
     },
     "translator.naver.clientId": "Naver API clientID",
     "translator.naver.clientSecret": "Naver API clientSecret",
